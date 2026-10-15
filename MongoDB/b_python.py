@@ -7,33 +7,27 @@ db = client["webshop"]
 
 # 1
 for product in db.products.find({"category": "Accessories"}):
-    print(product.get("name", "UnKnown"))
-
+    print(product.get("name", "Unknown"))
 
 # 2
-for name in db.customers.find({"city": "Göteborg"}):
-    print(name["first_name"], name["last_name"])
-
+for customer in db.customers.find({"city": "Göteborg"}):
+    print(customer["first_name"], customer["last_name"])
 
 # 3
 for product in db.products.find():
-    print(f"{product["name"]} ({product["price"]} kr)")
-
+    print(f"{product['name']} ({product['price']} kr)")
 
 # 4
-no_of_customers = db.customers.count_documents({"city" : "Uppsala"})
+no_of_customers = db.customers.count_documents({"city": "Uppsala"})
 print(no_of_customers)
 
-
 # 5
-product = db.products.find_one({"name" : "Sandals"})
+product = db.products.find_one({"name": "Sandals"})
 print(product["stock"])
-
 
 # 6
 for customer in db.customers.find({"newsletter": True}):
     print(customer["first_name"])
-
 
 # 7
 result = db.customers.insert_one({
@@ -44,10 +38,10 @@ result = db.customers.insert_one({
     "joined": datetime(2024, 3, 14),
     "newsletter": True
 })
-customer = db.customers.find_one({"email" : "harry@example.com"})
+
+customer = db.customers.find_one({"email": "harry@example.com"})
 print(result.inserted_id)
 pprint(customer)
-
 
 # 8
 db.products.insert_many([
@@ -75,12 +69,11 @@ db.products.insert_many([
 no_of_products = db.products.count_documents({})
 print(no_of_products)
 
-
 # 9
 for customer in db.customers.find():
-    print(f"{customer["first_name"]} {customer["last_name"]} ({customer.get("city", "unknown")})")
-
+    city = customer.get("city") or "unknown"
+    print(f"{customer['first_name']} {customer['last_name']} ({city})")
 
 # 10
 for order in db.orders.find():
-    print(f"Order {order["_id"]} : {len(order["items"])} items")
+    print(f"Order {order['_id']}: {len(order['items'])} items")
